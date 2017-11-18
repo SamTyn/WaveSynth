@@ -6,12 +6,12 @@ import javax.swing.event.ChangeListener;
 
 
 @SuppressWarnings("serial")
-public class Clip extends JPanel{
+public class Compress extends JPanel{
 	
 	DADSRD dadsrd;
 	double threshold=1;
 	
-	public Clip(Wave w, int sliderLength){
+	public Compress(Wave w, int sliderLength){
 		
 		super.setLayout(new GridBagLayout());
 		GridBagConstraints gbc=new GridBagConstraints();
@@ -25,8 +25,9 @@ public class Clip extends JPanel{
 		thresLab.setPreferredSize(new Dimension(80, 30));
 		thresLab.setHorizontalAlignment(SwingConstants.CENTER);
 		
-		JSlider factorSlider=new JSlider(JSlider.VERTICAL,0,sliderLength,0);
+		JSlider factorSlider=new JSlider(JSlider.VERTICAL,0,sliderLength,sliderLength);
 		factorSlider.setPreferredSize(new Dimension(40,60));
+		factorSlider.setInverted(true);
 		
 		JLabel facLab=new JLabel("factor");
 		facLab.setPreferredSize(new Dimension(80, 30));
@@ -63,7 +64,8 @@ public class Clip extends JPanel{
 		factorSlider.addChangeListener(new ChangeListener(){
 			@Override
 			public void stateChanged(ChangeEvent arg0) {
-				dadsrd.effectLevel=(double)factorSlider.getValue()/sliderLength;
+				double factor=(double)factorSlider.getValue();
+				dadsrd.effectLevel=1-(factor*factor*factor*factor/sliderLength/sliderLength/sliderLength/sliderLength);
 				dadsrd.update();
 			}
 		});

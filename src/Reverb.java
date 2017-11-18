@@ -66,7 +66,7 @@ public class Reverb extends JPanel {
 		reverbSlider.addChangeListener(new ChangeListener(){
 			@Override
 			public void stateChanged(ChangeEvent arg0) {
-				dadsrd.effectLevel=(double)reverbSlider.getValue()/sliderLength/2.0;
+				dadsrd.effectLevel=(double)reverbSlider.getValue()/sliderLength;
 				dadsrd.update();
 			}
 		});

@@ -31,13 +31,13 @@ public class Process {
 	        					break;
 	        				}
 	        				posFM+=w.frequencyFM*(double)131068/44100;
-	        				posFM=posFM%131068+(pos<0?131068:0);
+	        				posFM=posFM%131068+(posFM<0?131068:0);
 	        				posT+=w.trembleFrequency*(double)131068/44100;
-	        				posT=posT%131068+(pos<0?131068:0);
+	        				posT=posT%131068+(posT<0?131068:0);
 	        				pos+=modulate(frequency(i),posFM,i)*(double)131068/44100;
 	        				pos=pos%131068+(pos<0?131068:0);
 	        				try{
-	        					w.intData[i]=setAmplitude(reverb(iirFilter(compress2(tremble(waveForm(phaseDistort(pos,i),i),posT,i), i)),i),i);
+	        					w.intData[i]=(int)amplitude2(reverb(iirFilter(compress2(tremble(amplitude1(waveForm(phaseDistort(pos,i),i),i),posT,i), i)),i),i);
 	        				}catch(Exception e){
 	        					e.printStackTrace();
 	        				}
@@ -53,7 +53,7 @@ public class Process {
 		t.start();
 	}
 	
-	public int iirFilter(int data){
+	public double iirFilter(double data){
 		iirFilter[1]=iirFilter[0];
 		filterOutput=(1-w.smoothFactor)*data;
 		for(int i=1;i<iirFilter.length-2;i++){
@@ -65,8 +65,12 @@ public class Process {
 		return (int)filterOutput;
 	}
 	
-	public int setAmplitude(int data, double i){
-		return (int) (w.effects.amplitude.dadsrd.value(i)*((double)data));
+	public double amplitude1(double data, double i){
+		return (w.effects.amplitude1.dadsrd.value(i)*(data));
+	}
+	
+	public double amplitude2(double data, double i){
+		return (w.effects.amplitude2.dadsrd.value(i)*(data));
 	}
 	
 	public int phaseDistort(double pos, double i){
@@ -78,28 +82,28 @@ public class Process {
 		}
 	}
 	
-	public int compress(double data){
+	public double compress(double data){
 		double scale=w.threshold+(1-w.threshold)*w.comprFactor;
 		if(data>w.threshold*32767){
-			return(int)((w.threshold*32767+(data-w.threshold*32767)*w.comprFactor)/scale);
+			return (w.threshold*32767+(data-w.threshold*32767)*w.comprFactor)/scale;
 		}
 		else if(-data>w.threshold*32767){
-			return (int)((-w.threshold*32767+(data+w.threshold*32767)*w.comprFactor)/scale);
+			return (-w.threshold*32767+(data+w.threshold*32767)*w.comprFactor)/scale;
 		}else{
-			return (int)(data/scale);
+			return (data/scale);
 		}
 	}
 	
-	public int compress2(double data, double i){
-		double factor=1-w.effects.clip.dadsrd.value(i);
-		double scale=w.effects.clip.threshold+(1-w.effects.clip.threshold)*factor;
-		if(data>w.effects.clip.threshold*32767){
-			return(int)((w.effects.clip.threshold*32767+(data-w.effects.clip.threshold*32767)*factor)/scale);
+	public double compress2(double data, double i){
+		double factor=1-w.effects.compress.dadsrd.value(i);
+		double scale=w.effects.compress.threshold+(1-w.effects.compress.threshold)*factor;
+		if(data>w.effects.compress.threshold*32767){
+			return (w.effects.compress.threshold*32767+(data-w.effects.compress.threshold*32767)*factor)/scale;
 		}
-		else if(-data>w.effects.clip.threshold*32767){
-			return (int)((-w.effects.clip.threshold*32767+(data+w.effects.clip.threshold*32767)*factor)/scale);
+		else if(-data>w.effects.compress.threshold*32767){
+			return (-w.effects.compress.threshold*32767+(data+w.effects.compress.threshold*32767)*factor)/scale;
 		}else{
-			return (int)(data/scale);
+			return data/scale;
 		}
 	}
 	

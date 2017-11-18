@@ -10,9 +10,10 @@ import javax.swing.event.ChangeListener;
 public class Effects extends JPanel{
 	
 	PhaseDistortion phaseDistortion;
-	Amplitude amplitude;
+	Amplitude1 amplitude1;
+	Amplitude2 amplitude2;
 	Frequency frequency;
-	Clip clip;
+	Compress compress;
 	WaveForm waveForm;
 	FrequencyModulation frequencyModulation;
 	Tremble tremble;
@@ -27,10 +28,15 @@ public class Effects extends JPanel{
 		
 		//create components
 		
-			//amplitude effect
-			JButton ampl=new JButton("amplitude");
-			amplitude=new Amplitude(w,sliderLength);
-			amplitude.setVisible(false);
+			//amplitude 1 effect
+			JButton ampl1=new JButton("amplitude 1");
+			amplitude1=new Amplitude1(w,sliderLength);
+			amplitude1.setVisible(false);
+			
+			//amplitude 2 effect
+			JButton ampl2=new JButton("amplitude 2");
+			amplitude2=new Amplitude2(w,sliderLength);
+			amplitude2.setVisible(false);
 				
 			//phase distortion effect
 			JButton phaseDist=new JButton("phase");
@@ -47,10 +53,10 @@ public class Effects extends JPanel{
 			frequencyModulation=new FrequencyModulation(w,sliderLength);
 			frequencyModulation.setVisible(false);
 			
-			//clip effect
-			JButton cl=new JButton("clip");
-			clip=new Clip(w,sliderLength);
-			clip.setVisible(false);
+			//compress effect
+			JButton comp=new JButton("compress");
+			compress=new Compress(w,sliderLength);
+			compress.setVisible(false);
 				
 			//irr low pass filter
 			JButton smooth=new JButton("smooth");
@@ -106,14 +112,23 @@ public class Effects extends JPanel{
 		
 		gbc.gridx=0;
 		gbc.gridy=0;
-		add(ampl,gbc);
+		add(ampl1,gbc);
 		gbc.gridwidth=panelWidth;
 		gbc.gridx=0;
 		gbc.gridy=1;
-		add(amplitude,gbc);
+		add(amplitude1,gbc);
 		
 		gbc.gridwidth=1;
 		gbc.gridx=1;
+		gbc.gridy=0;
+		add(ampl2,gbc);
+		gbc.gridwidth=panelWidth;
+		gbc.gridx=0;
+		gbc.gridy=1;
+		add(amplitude2,gbc);
+		
+		gbc.gridwidth=1;
+		gbc.gridx=2;
 		gbc.gridy=0;
 		add(phaseDist,gbc);
 		gbc.gridwidth=panelWidth;
@@ -122,16 +137,16 @@ public class Effects extends JPanel{
 		add(phaseDistortion,gbc);
 		
 		gbc.gridwidth=1;
-		gbc.gridx=2;
+		gbc.gridx=3;
 		gbc.gridy=0;
-		add(cl,gbc);
+		add(comp,gbc);
 		gbc.gridwidth=panelWidth;
 		gbc.gridx=0;
 		gbc.gridy=1;
-		add(clip,gbc);
+		add(compress,gbc);
 		
 		gbc.gridwidth=1;
-		gbc.gridx=3;
+		gbc.gridx=4;
 		gbc.gridy=0;
 		add(smooth,gbc);
 		gbc.gridwidth=2;
@@ -140,7 +155,7 @@ public class Effects extends JPanel{
 		add(smPanel,gbc);
 		
 		gbc.gridwidth=1;
-		gbc.gridx=4;
+		gbc.gridx=5;
 		gbc.gridy=0;
 		add(freq,gbc);
 		gbc.gridwidth=panelWidth;
@@ -149,7 +164,7 @@ public class Effects extends JPanel{
 		add(frequency,gbc);
 		
 		gbc.gridwidth=1;
-		gbc.gridx=5;
+		gbc.gridx=6;
 		gbc.gridy=0;
 		add(frMo,gbc);
 		gbc.gridwidth=panelWidth;
@@ -158,7 +173,7 @@ public class Effects extends JPanel{
 		add(frequencyModulation,gbc);
 		
 		gbc.gridwidth=1;
-		gbc.gridx=6;
+		gbc.gridx=7;
 		gbc.gridy=0;
 		add(wf,gbc);
 		gbc.gridwidth=panelWidth;
@@ -167,7 +182,7 @@ public class Effects extends JPanel{
 		add(waveForm,gbc);
 		
 		gbc.gridwidth=1;
-		gbc.gridx=7;
+		gbc.gridx=8;
 		gbc.gridy=0;
 		add(tr,gbc);
 		gbc.gridwidth=panelWidth;
@@ -176,7 +191,7 @@ public class Effects extends JPanel{
 		add(tremble,gbc);
 		
 		gbc.gridwidth=1;
-		gbc.gridx=8;
+		gbc.gridx=9;
 		gbc.gridy=0;
 		add(rev,gbc);
 		gbc.gridwidth=panelWidth;
@@ -185,15 +200,28 @@ public class Effects extends JPanel{
 		add(reverb,gbc);
 		
 		//add actions
-		ampl.addActionListener(new ActionListener(){
+		ampl1.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				if(amplitude.isVisible()){
-					amplitude.setVisible(false);
+				if(amplitude1.isVisible()){
+					amplitude1.setVisible(false);
 					WaveSynthGUI.resizeMainWindow(frame);
 				}else{
 					setAllInvisible();
-					amplitude.setVisible(true);
+					amplitude1.setVisible(true);
+					WaveSynthGUI.resizeMainWindow(frame);
+				}
+			}
+		});
+		ampl2.addActionListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				if(amplitude2.isVisible()){
+					amplitude2.setVisible(false);
+					WaveSynthGUI.resizeMainWindow(frame);
+				}else{
+					setAllInvisible();
+					amplitude2.setVisible(true);
 					WaveSynthGUI.resizeMainWindow(frame);
 				}
 			}
@@ -211,15 +239,15 @@ public class Effects extends JPanel{
 				}
 			}
 		});
-		cl.addActionListener(new ActionListener(){
+		comp.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				if(clip.isVisible()){
-					clip.setVisible(false);
+				if(compress.isVisible()){
+					compress.setVisible(false);
 					WaveSynthGUI.resizeMainWindow(frame);
 				}else{
 					setAllInvisible();
-					clip.setVisible(true);
+					compress.setVisible(true);
 					WaveSynthGUI.resizeMainWindow(frame);
 				}
 			}
@@ -305,11 +333,12 @@ public class Effects extends JPanel{
 	}
 	
 	public void setAllInvisible(){
-		amplitude.setVisible(false);
+		amplitude1.setVisible(false);
+		amplitude2.setVisible(false);
 		phaseDistortion.setVisible(false);
 		smPanel.setVisible(false);
 		frequency.setVisible(false);
-		clip.setVisible(false);
+		compress.setVisible(false);
 		waveForm.setVisible(false);
 		frequencyModulation.setVisible(false);
 		tremble.setVisible(false);

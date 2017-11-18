@@ -3,23 +3,23 @@ import javax.swing.*;
 import javax.swing.event.*;
 
 @SuppressWarnings("serial")
-public class Amplitude extends JPanel{
+public class Amplitude2 extends JPanel{
 	
 	DADSRD dadsrd;
 	
-	public Amplitude(Wave w, int sliderLength){
+	public Amplitude2(Wave w, int sliderLength){
 		
 		super.setLayout(new GridBagLayout());
 		GridBagConstraints gbc=new GridBagConstraints();
 		
 		//create components
 		
-		JSlider amplitudeSlider=new JSlider(JSlider.VERTICAL,0,sliderLength,sliderLength);
-		amplitudeSlider.setPreferredSize(new Dimension(40,60));
+		JSlider amplitude2Slider=new JSlider(JSlider.VERTICAL,0,sliderLength,sliderLength);
+		amplitude2Slider.setPreferredSize(new Dimension(40,60));
 		
 		dadsrd=new DADSRD(w, sliderLength, 6);
 		
-		JLabel ampLab=new JLabel("amplitude");
+		JLabel ampLab=new JLabel("amplitude 2");
 		ampLab.setPreferredSize(new Dimension(80, 30));
 		ampLab.setHorizontalAlignment(SwingConstants.CENTER);
 		
@@ -27,7 +27,7 @@ public class Amplitude extends JPanel{
 		
 		gbc.gridx=0;
 		gbc.gridy=0;
-		add(amplitudeSlider,gbc);
+		add(amplitude2Slider,gbc);
 		
 		gbc.gridx=0;
 		gbc.gridy=1;
@@ -40,10 +40,10 @@ public class Amplitude extends JPanel{
 		
 		//add actions
 		
-		amplitudeSlider.addChangeListener(new ChangeListener(){
+		amplitude2Slider.addChangeListener(new ChangeListener(){
 			@Override
 			public void stateChanged(ChangeEvent arg0) {
-				dadsrd.effectLevel=(double)amplitudeSlider.getValue()/sliderLength;
+				dadsrd.effectLevel=(double)amplitude2Slider.getValue()/sliderLength;
 				dadsrd.update();
 			}
 		});
